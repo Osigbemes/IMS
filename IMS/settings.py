@@ -29,7 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
-    'ims-production-ae44.up.railway.app/'
+    'ims-production-ae44.up.railway.app'
 ]
 
 # Application definition
