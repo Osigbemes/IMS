@@ -90,12 +90,12 @@ WSGI_APPLICATION = 'IMS.wsgi.application'
 # }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'IMS', 
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway', 
         'USER': 'postgres',
-        'PASSWORD': 'osigbemes',
-        'HOST': '127.0.0.1', 
-        'PORT': '5432',
+        'PASSWORD': 'tN08r747D43WHqkd61zR',
+        'HOST': 'containers-us-west-133.railway.app', 
+        'PORT': '6054',
     }
 }
 
