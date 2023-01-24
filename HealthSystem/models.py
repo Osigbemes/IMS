@@ -76,8 +76,9 @@ class Appointment(models.Model):
 
 class Comment(models.Model):
     comment = models.TextField(null=True, blank=True)
-    userId = models.IntegerField()
-    user = models.CharField(max_length=200, blank=True, null=True)
+    userId = models.IntegerField(null=True, blank=True)
+    doctorId = models.IntegerField(null=True, blank=True)
+    # user = models.CharField(max_length=200, blank=True, null=True)
 
 class Vitals(models.Model):
     pass

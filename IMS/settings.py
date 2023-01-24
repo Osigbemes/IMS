@@ -82,22 +82,22 @@ WSGI_APPLICATION = 'IMS.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway', 
-        'USER': 'postgres',
-        'PASSWORD': 'tN08r747D43WHqkd61zR',
-        'HOST': 'containers-us-west-133.railway.app', 
-        'PORT': '6054',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway', 
+#         'USER': 'postgres',
+#         'PASSWORD': 'tN08r747D43WHqkd61zR',
+#         'HOST': 'containers-us-west-133.railway.app', 
+#         'PORT': '6054',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -161,3 +161,10 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
+
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.mail.yahoo.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'gbemilekeosinaike@yahoo.com' #os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = 'xyambfbkotzbshtr' #os.environ.get('EMAIL_HOST_PASSWORD')

@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('register/', UserRegistration.as_view(), name='register'),
     path('login/', Login.as_view(), name='login'),
-    path('get_vitals/', GetPatientVitals.as_view(), name='gte_vitals'),
+    path('get_vitals/', GetPatientVitals.as_view(), name='get_vitals'),
+    path('confirm_appointment/', GetPatientVitals.as_view(), name='confirm_appointment'),
     path('appointment/', BookAppointment.as_view(), name='appointment'),
 ]

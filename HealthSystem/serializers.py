@@ -33,3 +33,8 @@ class BookAppointment(serializers.ModelSerializer):
     class Meta:
         model = Appointment
         fields = ('patientId', 'doctorId', 'date', 'diagnosis')
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('userId', 'doctorId', 'comment')

@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer, BookAppointment
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
+from .utils import GetPatientInfo, UtilEmail
 
 class UserRegistration(generics.CreateAPIView):
     permission_classes=[AllowAny]
@@ -77,9 +77,22 @@ class BookAppointment(generics.CreateAPIView):
         if serializer.is_valid():
             appointment = serializer.save()
 
+            user = User.objects.get(id=appointment.patientId)
+            UtilEmail.sendEmail(data={'request':request, 'user':user, 'token':user.token})
+
             if appointment:
                 return Response({'success':True, 'message':f'Appointment booked successfully {serializer.data}'}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-class GetPatientVitals(APIView):
-    pass
+class GetPatientVitals(generics.ListAPIView):
+    permission_classes=[AllowAny]
+
+    # serializer_class=
+    def get(self, request):
+        patientResult = GetPatientInfo()
+        if patientResult:
+            return Response({'success':True, 'result':patientResult}, status=status.HTTP_200_OK)
+        return Response({'success':False, 'message':'unable to fetech json response'}, status=status.HTTP_400_BAD_REQUEST)
+    
+class Comment(generics.ListCreateAPIView):
+    permission_classes=[AllowAny]
