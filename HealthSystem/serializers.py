@@ -34,6 +34,11 @@ class BookAppointment(serializers.ModelSerializer):
         model = Appointment
         fields = ('patientId', 'doctorId', 'date', 'diagnosis')
 
+class AcceptOrRejectAppointment(serializers.ModelSerializer):
+    class Meta:
+        model = Appointment
+        fields = ('id', 'booked')
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

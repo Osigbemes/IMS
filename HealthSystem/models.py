@@ -73,6 +73,7 @@ class Appointment(models.Model):
     diagnosis = models.TextField(null=True, blank=True)
     doctorId = models.IntegerField()
     date = models.DateTimeField()
+    booked = models.BooleanField(default=False)
 
 class Comment(models.Model):
     comment = models.TextField(null=True, blank=True)
