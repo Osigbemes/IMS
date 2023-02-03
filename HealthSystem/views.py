@@ -61,6 +61,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username']=user.username
         token['is_staff']=user.is_staff
         token['is_active']=user.is_active
+        token['userStatus']=user.userStatus
         return token
 
 class Login(TokenObtainPairView):
