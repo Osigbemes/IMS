@@ -24,7 +24,7 @@ class UtilEmail:
         token = data['token']
 
         currentSite = get_current_site(request).domain
-        reverseSite = reverse('ims:confirm_appointment')
+        reverseSite = reverse('ims:accept_or_reject')
 
         urlPath = 'http://' + currentSite + reverseSite  +  '?token=' + str(token)
         emailBody = 'Hi '+ str(user.username) + ', ' + 'use the link below to confirm your appointment \n'+ urlPath
