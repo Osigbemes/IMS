@@ -12,6 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer, BookAppointment, AcceptOrRejectAppointment
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .utils import GetPatientInfo, UtilEmail
+from django.db.models import Q
 
 class UserRegistration(generics.CreateAPIView):
     permission_classes=[AllowAny]
@@ -77,10 +78,19 @@ class BookAppointment(generics.CreateAPIView):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             appointment = serializer.save()
+            
+            user = User.objects.filter(Q(id__icontains=appointment.patientId) & Q(userStatus__icontains="PR"))
+            if not user:
+                return Response({'success':False, 'message':f'This patient with this id {appointment.patientId} does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            doctor = User.objects.filter(Q(id__icontains=appointment.doctorId) & Q(userStatus__icontains="DR"))
+            if not doctor:
+                return Response({'success':False, 'message':f'This doctor with this id {appointment.doctorId} does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            appointment.save()
+            print (appointment.id)
+            UtilEmail.sendEmail(data={'request':request, 'user':user[0], 'token':user[0].token, 'appointmentId':appointment.id})
 
-            user = User.objects.get(id=appointment.patientId)
-            UtilEmail.sendEmail(data={'request':request, 'user':user, 'token':user.token})
-
+            
+            
             if appointment:
                 return Response({'success':True, 'message':f'Appointment booked successfully {serializer.data}'}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -98,21 +108,21 @@ class GetPatientVitals(generics.ListAPIView):
 class Comment(generics.ListCreateAPIView):
     permission_classes=[AllowAny]
 
-class AcceptOrRejectAppointment(generics.CreateAPIView):
+class AcceptOrRejectAppointment(generics.UpdateAPIView):
     permission_classes=[AllowAny]
-    queryset = Appointment
     serializer_class = AcceptOrRejectAppointment
 
-    def put(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
+    def update(self, request, pk, *args, **kwargs):
+        appointment = Appointment.objects.get(id=pk)
+        serializer = self.serializer_class(instance=appointment, data=request.data)
+
         if serializer.is_valid():
             accept_or_reject_appointment = serializer.save()
-            appointment = get_object_or_404(self.queryset, id=accept_or_reject_appointment.id)
-            print (appointment)
+            
             if appointment:
-                appointment.booked=serializer.booked
+                appointment.booked=accept_or_reject_appointment.booked
                 accept_or_reject_appointment.save()
-                return Response({'success':True, 'result':{serializer.data}}, status=status.HTTP_200_OK)
+                return Response({'success':True, 'result':serializer.data}, status=status.HTTP_200_OK)
             return Response({'success':False, 'Error':'Patient not found for this appointment'}, status=status.HTTP_404_NOT_FOUND)
 
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

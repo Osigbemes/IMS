@@ -39,6 +39,11 @@ class AcceptOrRejectAppointment(serializers.ModelSerializer):
         model = Appointment
         fields = ('id', 'booked')
 
+    # def update(self, instance, validated_data): 
+    #     instance.booked = validated_data.get('booked', instance.booked)
+    #     instance.save()
+    #     return instance
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

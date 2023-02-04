@@ -15,5 +15,5 @@ urlpatterns = [
     path('get_vitals/', GetPatientVitals.as_view(), name='get_vitals'),
     # path('confirm_appointment/', GetPatientVitals.as_view(), name='accept_or_reject'),
     path('appointment/', BookAppointment.as_view(), name='appointment'),
-    path('accept_or_reject/', AcceptOrRejectAppointment.as_view(), name='accept_or_reject'),
+    path('accept_or_reject/<str:pk>', AcceptOrRejectAppointment.as_view(), name='accept_or_reject'),
 ]
