@@ -9,7 +9,7 @@ from .models import User, Appointment, Comment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, BookAppointment, AcceptOrRejectAppointment
+from .serializers import UserSerializer, BookAppointment, AcceptOrRejectAppointment, GetUsersSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .utils import GetPatientInfo, UtilEmail
 from django.db.models import Q
@@ -125,4 +125,16 @@ class AcceptOrRejectAppointment(generics.UpdateAPIView):
                 return Response({'success':True, 'result':serializer.data}, status=status.HTTP_200_OK)
             return Response({'success':False, 'Error':'Patient not found for this appointment'}, status=status.HTTP_404_NOT_FOUND)
 
+        return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+class GetAllUsers(generics.ListAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = GetUsersSerializer
+    queryset = User.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = self.get_queryset()
+        serializer = self.serializer_class(user, many=True)
+        if serializer:
+            return Response({'success':True, 'result':serializer.data}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

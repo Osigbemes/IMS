@@ -48,3 +48,9 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('userId', 'doctorId', 'comment')
+
+class GetUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+        extra_kwargs = {'password': {'write_only':True}}
