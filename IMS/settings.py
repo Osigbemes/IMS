@@ -34,6 +34,8 @@ CSRF_TRUSTED_ORIGINS = [
     'http://localhost:9000/',
     'http://localhost:3000/'
 ]
+# CORS_ORIGIN_ALLOW_ALL = True
+
 
 # Application definition
 
@@ -46,11 +48,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic', 
     'HealthSystem',
+    'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
