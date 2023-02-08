@@ -28,11 +28,11 @@ SECRET_KEY = 'django-insecure-6&tz7p83bt9^0^2)4snsdi599o!b92n75l+^6o5d6f@e!%u-82
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     'https://ims-production-ae44.up.railway.app',
-    'https://intelligent-monitoring-system.netlify.app/',
-    'http://localhost:9000/',
-    'http://localhost:3000/'
+    'https://intelligent-monitoring-system.netlify.app',
+    'http://localhost:9000',
+    'http://localhost:3000'
 ]
 # CORS_ORIGIN_ALLOW_ALL = True
 
