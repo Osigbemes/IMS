@@ -102,7 +102,7 @@ class GetPatientVitals(generics.ListAPIView):
     def get(self, request):
         patientResult = GetPatientInfo()
         if patientResult:
-            return Response({'success':True, 'result':patientResult}, status=status.HTTP_200_OK)
+            return Response({'success':True, 'message':patientResult}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':'unable to fetech json response'}, status=status.HTTP_400_BAD_REQUEST)
     
 class Comment(generics.ListCreateAPIView):
@@ -122,8 +122,8 @@ class AcceptOrRejectAppointment(generics.UpdateAPIView):
             if appointment:
                 appointment.booked=accept_or_reject_appointment.booked
                 accept_or_reject_appointment.save()
-                return Response({'success':True, 'result':serializer.data}, status=status.HTTP_200_OK)
-            return Response({'success':False, 'Error':'Patient not found for this appointment'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'success':True, 'message':serializer.data}, status=status.HTTP_200_OK)
+            return Response({'success':False, 'message':'Patient not found for this appointment'}, status=status.HTTP_404_NOT_FOUND)
 
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -136,5 +136,5 @@ class GetAllUsers(generics.ListAPIView):
         user = self.get_queryset()
         serializer = self.serializer_class(user, many=True)
         if serializer:
-            return Response({'success':True, 'result':serializer.data}, status=status.HTTP_200_OK)
+            return Response({'success':True, 'message':serializer.data}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
