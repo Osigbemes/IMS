@@ -9,7 +9,7 @@ from .models import User, Appointment, Comment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import UserSerializer, BookAppointment, AcceptOrRejectAppointment, GetUsersSerializer
+from .serializers import UserSerializer, BookAppointment, AcceptOrRejectAppointment, GetUsersSerializer, GetAllBookedAppointmentsSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from .utils import GetPatientInfo, UtilEmail
 from django.db.models import Q
@@ -102,7 +102,7 @@ class GetPatientVitals(generics.ListAPIView):
     def get(self, request):
         patientResult = GetPatientInfo()
         if patientResult:
-            return Response({'success':True, 'message':patientResult}, status=status.HTTP_200_OK)
+            return Response({'success':True, 'message':patientResult, 'count':len(patientResult)}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':'unable to fetech json response'}, status=status.HTTP_400_BAD_REQUEST)
     
 class Comment(generics.ListCreateAPIView):
@@ -138,3 +138,14 @@ class GetAllUsers(generics.ListAPIView):
         if serializer:
             return Response({'success':True, 'message':serializer.data}, status=status.HTTP_200_OK)
         return Response({'success':False, 'message':serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+    
+class GetBookedAppointment(generics.ListAPIView):
+    serializer_class = GetAllBookedAppointmentsSerializer
+    permission_classes = [AllowAny]
+    
+    def get(self, request, *args, **kwargs):
+        appointments = Appointment.objects.filter(booked=True)
+        booked_serializer = self.serializer_class(appointments, many=True)
+        if booked_serializer:
+            return Response({'success':True, 'message':booked_serializer.data, 'count':len(booked_serializer.data)}, status=status.HTTP_200_OK)
+        return Response({'success':False, 'message':booked_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

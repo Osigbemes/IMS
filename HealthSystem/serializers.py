@@ -43,6 +43,11 @@ class AcceptOrRejectAppointment(serializers.ModelSerializer):
     #     instance.booked = validated_data.get('booked', instance.booked)
     #     instance.save()
     #     return instance
+    
+class GetAllBookedAppointmentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Appointment
+        fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

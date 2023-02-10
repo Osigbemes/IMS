@@ -3,7 +3,8 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from .views import UserRegistration, Login, BookAppointment, GetPatientVitals, AcceptOrRejectAppointment, GetAllUsers
+from .views import (UserRegistration, Login, BookAppointment, GetPatientVitals,
+AcceptOrRejectAppointment, GetAllUsers, GetBookedAppointment)
 
 app_name = 'HealthSystem'
 
@@ -15,5 +16,6 @@ urlpatterns = [
     path('get_vitals/', GetPatientVitals.as_view(), name='get_vitals'),
     path('get_users/', GetAllUsers.as_view(), name='get_users'),
     path('appointment/', BookAppointment.as_view(), name='appointment'),
+    path('get_number_of_booked_appointments/', GetBookedAppointment.as_view(), name='get_number_of_booked_appointments'),
     path('accept_or_reject/<str:pk>', AcceptOrRejectAppointment.as_view(), name='accept_or_reject'),
 ]
