@@ -25,9 +25,10 @@ class UtilEmail:
         appointmentId = data['appointmentId']
 
         currentSite = get_current_site(request).domain
+        ims_site = 'https://intelligent-monitoring-system.netlify.app/confirm'
         reverseSite = reverse('ims:accept_or_reject', args=[appointmentId])
 
-        urlPath = 'http://' + currentSite + reverseSite  #'?token=' + str(token)
+        urlPath = ims_site  #'?token=' + str(token)
         emailBody = 'Hi '+ str(user.username) + ', ' + 'use the link below to confirm your appointment \n'+ urlPath
 
         subject = 'Confirm Appointment!'
