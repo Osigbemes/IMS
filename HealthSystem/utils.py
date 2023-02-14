@@ -25,7 +25,7 @@ class UtilEmail:
         appointmentId = data['appointmentId']
 
         currentSite = get_current_site(request).domain
-        ims_site = 'https://intelligent-monitoring-system.netlify.app/confirm'
+        ims_site = f'https://intelligent-monitoring-system.netlify.app/confirm{appointmentId}'
         reverseSite = reverse('ims:accept_or_reject', args=[appointmentId])
 
         urlPath = ims_site  #'?token=' + str(token)
