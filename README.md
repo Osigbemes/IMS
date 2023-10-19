@@ -1,4 +1,4 @@
-# IMS
+# IMS (Intelligent Monitoring System)
 
 My final year project on an intelligent monitoring system in health care
 
